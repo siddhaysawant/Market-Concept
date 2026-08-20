@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Technical Analysis — Complete Concept Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#0a0a0a;
+    --bg-raised:#121212;
+    --line:#262626;
+    --line-soft:#1a1a1a;
+    --text:#ededed;
+    --text-dim:#8a8a8a;
+    --text-faint:#565656;
+    --gold:#c9a24b;
+    --common:#4a7c6f;
+    --uncommon:#4a7ca0;
+    --new:#8a4ac9;
+    --underrated:#c98a4a;
+    --grid:60px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0/var(--grid) var(--grid),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px) 0 0/var(--grid) var(--grid),
+      var(--bg);
+    color:var(--text);
+    font-family:'Roboto', sans-serif;
+    font-weight:300;
+    padding:48px 32px 120px;
+    min-height:100vh;
+  }
+
+  .wrap{max-width:1400px; margin:0 auto; position:relative;}
+
+  .corner{position:absolute; width:22px; height:22px; border-color:var(--gold); opacity:.55;}
+  .corner.tl{top:-18px; left:-18px; border-top:1px solid; border-left:1px solid;}
+  .corner.tr{top:-18px; right:-18px; border-top:1px solid; border-right:1px solid;}
+  .corner.bl{bottom:-18px; left:-18px; border-bottom:1px solid; border-left:1px solid;}
+  .corner.br{bottom:-18px; right:-18px; border-bottom:1px solid; border-right:1px solid;}
+
+  header{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:8px; position:relative;}
+
+  .eyebrow{
+    font-family:'Roboto Mono', monospace; font-size:11px; letter-spacing:.25em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:18px;
+  }
+
+  h1{
+    font-family:'Playfair Display', serif; font-weight:600;
+    font-size:clamp(32px, 4vw, 52px); letter-spacing:-.01em; line-height:1.05; margin-bottom:14px;
+  }
+  h1 em{font-style:italic; color:var(--gold); font-weight:500;}
+
+  .sub{font-size:14.5px; color:var(--text-dim); max-width:660px; line-height:1.65; font-weight:300;}
+
+  .meta-row{
+    display:flex; gap:32px; margin-top:24px; flex-wrap:wrap;
+    font-family:'Roboto Mono', monospace; font-size:11px; color:var(--text-faint); letter-spacing:.05em;
+  }
+  .meta-row span{color:var(--text-dim);}
+
+  .legend{
+    display:flex; gap:28px; flex-wrap:wrap; margin:28px 0 8px;
+    padding:18px 22px; background:var(--bg-raised); border:1px solid var(--line);
+  }
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-dim); font-family:'Roboto Mono', monospace;}
+  .dot{width:9px; height:9px; flex-shrink:0;}
+  .dot.common{background:var(--common);}
+  .dot.uncommon{background:var(--uncommon);}
+  .dot.new{background:var(--new);}
+  .dot.underrated{background:var(--underrated);}
+
+  .controls{display:flex; gap:10px; flex-wrap:wrap; margin:28px 0 0;}
+  .filter-btn{
+    font-family:'Roboto Mono', monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    background:transparent; color:var(--text-dim); border:1px solid var(--line); padding:9px 16px; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--gold); color:var(--text);}
+  .filter-btn.active{background:var(--gold); color:#0a0a0a; border-color:var(--gold); font-weight:500;}
+
+  .search-box{
+    font-family:'Roboto Mono', monospace; font-size:12px; background:var(--bg-raised);
+    border:1px solid var(--line); color:var(--text); padding:9px 14px; width:240px; outline:none;
+  }
+  .search-box:focus{border-color:var(--gold);}
+  .search-box::placeholder{color:var(--text-faint);}
+
+  .count-line{font-family:'Roboto Mono', monospace; font-size:11px; color:var(--text-faint); margin:16px 0 6px; letter-spacing:.05em;}
+
+  .section-title{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:500; font-size:20px;
+    color:var(--gold); margin:52px 0 4px; padding-bottom:10px; border-bottom:1px solid var(--line);
+  }
+  .section-title .num{font-family:'Roboto Mono', monospace; font-style:normal; font-size:12px; color:var(--text-faint); margin-right:12px;}
+  .section-desc{font-size:12.5px; color:var(--text-faint); margin:8px 0 18px; max-width:600px; line-height:1.5;}
+
+  table{width:100%; border-collapse:collapse; margin-top:6px;}
+  thead th{
+    text-align:left; font-family:'Roboto Mono', monospace; font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--text-faint); font-weight:400; padding:10px 14px;
+    border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  tbody tr{border-bottom:1px solid var(--line-soft); transition:background .12s ease;}
+  tbody tr:hover{background:var(--bg-raised);}
+  tbody td{padding:14px 14px; font-size:13px; color:var(--text); vertical-align:top; line-height:1.5;}
+  .concept-name{font-weight:500; color:var(--text); font-size:13.5px;}
+  .concept-num{font-family:'Roboto Mono', monospace; color:var(--text-faint); font-size:11px; margin-right:8px;}
+
+  .level-tag{
+    display:inline-block; font-family:'Roboto Mono', monospace; font-size:9px; letter-spacing:.05em;
+    text-transform:uppercase; padding:2px 7px; border:1px solid var(--line); color:var(--text-faint);
+  }
+
+  .tag{
+    display:inline-block; font-family:'Roboto Mono', monospace; font-size:9.5px; letter-spacing:.06em;
+    text-transform:uppercase; padding:3px 8px; border:1px solid; white-space:nowrap;
+  }
+  .tag.common{color:var(--common); border-color:var(--common);}
+  .tag.uncommon{color:var(--uncommon); border-color:var(--uncommon);}
+  .tag.new{color:var(--new); border-color:var(--new);}
+  .tag.underrated{color:var(--underrated); border-color:var(--underrated);}
+
+  .explain{color:var(--text-dim); font-size:12.5px; line-height:1.5;}
+
+  .prac{font-family:'Roboto Mono', monospace; font-size:12px; letter-spacing:.02em; white-space:nowrap;}
+  .prac .fill{color:var(--gold);}
+  .prac .empty{color:var(--line);}
+
+  tr.hidden{display:none;}
+
+  /* Combo cards */
+  .combo-group{margin-bottom:36px;}
+  .combo-tf{
+    font-family:'Roboto Mono', monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--line-soft);
+  }
+  .combo-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:14px;}
+  .combo-card{
+    background:var(--bg-raised); border:1px solid var(--line); padding:18px 20px;
+  }
+  .combo-pair{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:500; font-size:15px;
+    color:var(--text); margin-bottom:8px; line-height:1.4;
+  }
+  .combo-pair .plus{color:var(--gold); font-style:normal; margin:0 4px;}
+  .combo-why{font-size:12px; color:var(--text-dim); line-height:1.55;}
+  .combo-rating{
+    margin-top:10px; padding-top:10px; border-top:1px solid var(--line-soft);
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Roboto Mono', monospace; font-size:10.5px; color:var(--text-faint); letter-spacing:.04em;
+  }
+
+  footer{
+    margin-top:80px; padding-top:24px; border-top:1px solid var(--line);
+    font-family:'Roboto Mono', monospace; font-size:11px; color:var(--text-faint);
+    letter-spacing:.03em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+
+  @media (max-width:900px){ body{padding:32px 16px 100px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+
+  <header>
+    <div class="eyebrow">Reference Document · Technical Analysis</div>
+    <h1>The Complete <em>Concept Map</em><br>of Technical Analysis</h1>
+    <p class="sub">Every TA concept, basic to advanced, rated by how frequently it's actually used in practice — not by how well-known it is in theory. Common ≠ correct, and underrated ≠ obscure. Read the tags as usage-frequency, not quality.</p>
+    <div class="meta-row">
+      <span>72 <span style="color:var(--text-faint)">concepts</span></span>
+      <span>9 <span style="color:var(--text-faint)">categories</span></span>
+      <span>4 <span style="color:var(--text-faint)">usage tags</span></span>
+      <span>18 <span style="color:var(--text-faint)">combinations</span></span>
+      <span>Aug 2026 <span style="color:var(--text-faint)">compiled</span></span>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot common"></span> Common — everyone uses this, mainstream</div>
+    <div class="legend-item"><span class="dot uncommon"></span> Uncommon — known but rarely applied well</div>
+    <div class="legend-item"><span class="dot new"></span> New — recently popularized, still spreading</div>
+    <div class="legend-item"><span class="dot underrated"></span> Underrated — powerful, overlooked by most</div>
+  </div>
+  <div class="legend" style="margin-top:10px;">
+    <div class="legend-item" style="color:var(--text-faint)">Practicality (●●●●●) — real-world effectiveness when correctly applied, independent of popularity. 5 = high standalone edge. 1 = weak/decorative alone.</div>
+  </div>
+
+  <div class="controls">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="common">Common</button>
+    <button class="filter-btn" data-filter="uncommon">Uncommon</button>
+    <button class="filter-btn" data-filter="new">New</button>
+    <button class="filter-btn" data-filter="underrated">Underrated</button>
+    <input type="text" class="search-box" id="searchBox" placeholder="Search a concept...">
+  </div>
+  <div class="count-line" id="countLine">Showing 72 of 72</div>
+
+  <div id="tableContainer"></div>
+
+  <div class="section-title" style="margin-top:70px;"><span class="num">COMBO</span>Combination Framework — What Pairs With What, and When</div>
+  <div class="section-desc">Single indicators lie often. These are the pairings experienced traders actually rely on — grouped by timeframe, with the logic for why each combination works.</div>
+  <div id="comboContainer"></div>
+
+  <footer>
+    <span>Compiled for Siddhay · Technical Analysis Reference v1</span>
+    <span>Tags reflect real-world usage frequency, not quality or validity</span>
+  </footer>
+</div>
+
+<script>
+// [num, name, level(Basic/Intermediate/Advanced/Frontier), tag, practicality(1-5), one-line explanation]
+const sections = [
+{title:"Chart Foundations", desc:"The raw visual building blocks every other TA concept sits on top of.", items:[
+[1,"Candlestick chart","Basic","common",5,"Shows open, high, low, close as a single visual block per time period."],
+[2,"Line chart","Basic","common",2,"Connects closing prices only, used for a clean big-picture trend view."],
+[3,"Bar chart (OHLC)","Basic","uncommon",2,"Same data as candlesticks, shown as tick marks instead — mostly a Western/legacy format."],
+[4,"Heikin-Ashi candles","Intermediate","underrated",3,"Smoothed candles that filter noise and make trends visually cleaner, at the cost of exact price accuracy."],
+[5,"Timeframes (1m to Monthly)","Basic","common",5,"Same price data viewed at different zoom levels — the timeframe you choose changes what you see."],
+[6,"Logarithmic vs Linear scale","Intermediate","uncommon",3,"Log scale shows percentage moves proportionally; linear shows absolute moves — critical for long-term charts."]
+]},
+{title:"Price Action & Trend", desc:"Reading raw price behavior without indicators — the oldest and still most-used layer of TA.", items:[
+[7,"Trend (uptrend/downtrend/range)","Basic","common",5,"The general direction price is moving over a given timeframe."],
+[8,"Higher highs & higher lows","Basic","common",5,"The structural definition of an uptrend — each swing exceeds the last."],
+[9,"Support and Resistance","Basic","common",5,"Price zones where buying or selling pressure has historically reversed the move."],
+[10,"Trendlines","Basic","common",3,"A line connecting swing highs or lows to visualize the trend's slope — highly subjective to draw."],
+[11,"Channel (parallel trendlines)","Intermediate","uncommon",3,"Two parallel trendlines containing price, used to spot range extremes within a trend."],
+[12,"Swing high / Swing low","Basic","common",5,"A local peak or trough in price, the basic unit used to define trend structure."],
+[13,"Market structure (BOS/CHoCH)","Intermediate","new",4,"Break of Structure and Change of Character — recently popularized terms for trend continuation vs reversal."],
+[14,"Price action trading (pure)","Intermediate","underrated",4,"Trading off raw candle behavior and structure alone, with zero indicators — unfashionable but often more reliable."],
+[15,"Consolidation / Range-bound","Basic","common",4,"A period where price moves sideways between defined support and resistance."]
+]},
+{title:"Candlestick Patterns", desc:"Single or multi-candle formations believed to signal short-term reversals or continuation.", items:[
+[16,"Doji","Basic","common",2,"Open and close nearly equal — signals indecision, weak alone without context."],
+[17,"Hammer / Hanging Man","Basic","common",3,"Small body with long lower wick — potential reversal signal depending on prior trend."],
+[18,"Engulfing pattern (bullish/bearish)","Basic","common",4,"A candle that fully engulfs the prior candle's body — one of the more statistically tested patterns."],
+[19,"Morning Star / Evening Star","Intermediate","uncommon",3,"A 3-candle reversal formation — visually appealing but inconsistently reliable in practice."],
+[20,"Marubozu","Intermediate","uncommon",3,"A candle with no wicks at all — shows one-sided conviction for the entire session."],
+[21,"Inside bar / Outside bar","Intermediate","underrated",4,"A candle fully contained within (or engulfing) the prior candle's range — genuinely useful for volatility contraction/expansion signals, rarely taught well."],
+[22,"Pin bar","Intermediate","uncommon",3,"A candle with a long wick rejecting a price level — popular in forex/price-action circles, less so in Indian equity TA."]
+]},
+{title:"Chart Patterns", desc:"Larger, multi-candle geometric formations believed to predict continuation or reversal.", items:[
+[23,"Head and Shoulders","Basic","common",2,"A 3-peak reversal pattern, one of the most widely taught — but heavily arbitraged and less reliable now."],
+[24,"Double Top / Double Bottom","Basic","common",3,"Two failed attempts at the same price level, signaling exhaustion of the trend."],
+[25,"Triangles (ascending/descending/symmetrical)","Basic","common",3,"Converging trendlines signaling a volatility squeeze before a breakout."],
+[26,"Flags and Pennants","Intermediate","common",4,"Short consolidation after a strong move, typically resolving in the direction of the prior trend."],
+[27,"Cup and Handle","Intermediate","uncommon",2,"A rounded basing pattern followed by a small pullback — popular in US growth-stock TA, less common in Indian markets."],
+[28,"Rounding bottom/top","Intermediate","uncommon",3,"A slow, gradual reversal pattern, harder to spot in real time than in hindsight."],
+[29,"Wedges (rising/falling)","Intermediate","uncommon",3,"Converging trendlines both sloping the same direction, often a reversal rather than continuation signal."],
+[30,"Broadening formation (megaphone)","Advanced","underrated",3,"Expanding volatility pattern signaling instability — rarely taught, often shows up right before major reversals."]
+]},
+{title:"Trend & Momentum Indicators", desc:"Mathematical overlays derived from price, used to confirm or time trend/momentum decisions.", items:[
+[31,"Simple Moving Average (SMA)","Basic","common",4,"The average closing price over N periods — smooths price but lags."],
+[32,"Exponential Moving Average (EMA)","Basic","common",4,"A moving average weighted toward recent prices — reacts faster than SMA."],
+[33,"Moving Average crossovers (Golden/Death Cross)","Basic","common",2,"A shorter MA crossing a longer MA, used as a trend-shift signal — heavily popularized, now often late."],
+[34,"RSI (Relative Strength Index)","Basic","common",4,"Measures momentum on a 0-100 scale to flag overbought/oversold conditions."],
+[35,"MACD","Intermediate","common",3,"Compares two EMAs to gauge momentum shifts and trend strength."],
+[36,"Stochastic Oscillator","Intermediate","uncommon",3,"Compares closing price to its recent range — similar goal to RSI, less used in Indian retail TA."],
+[37,"ADX (Average Directional Index)","Intermediate","underrated",4,"Measures trend strength (not direction) — genuinely useful for filtering choppy markets, rarely used correctly."],
+[38,"Ichimoku Cloud","Advanced","uncommon",3,"A multi-component Japanese system showing trend, momentum, and support/resistance at once — visually dense, steep learning curve."],
+[39,"Parabolic SAR","Intermediate","uncommon",2,"Dots that flip above/below price to signal trend direction and potential reversal points."],
+[40,"CCI (Commodity Channel Index)","Advanced","uncommon",2,"Measures deviation from a statistical average — niche, more common in commodities/futures TA."]
+]},
+{title:"Volatility & Volume Indicators", desc:"Tools measuring the intensity and conviction behind price moves, not just direction.", items:[
+[41,"Bollinger Bands","Intermediate","common",4,"Bands set at standard deviations from a moving average — expand and contract with volatility."],
+[42,"ATR (Average True Range)","Intermediate","underrated",5,"Measures average volatility magnitude — essential for stop-loss sizing, rarely used by retail traders."],
+[43,"Keltner Channel","Advanced","uncommon",3,"Volatility bands based on ATR rather than standard deviation — less popular cousin of Bollinger Bands."],
+[44,"Volume (raw)","Basic","common",5,"Number of shares traded — the most basic conviction measure behind any price move."],
+[45,"VWAP (Volume Weighted Average Price)","Intermediate","common",5,"The average price weighted by volume — a key intraday institutional benchmark."],
+[46,"On-Balance Volume (OBV)","Intermediate","uncommon",3,"A running total adding/subtracting volume based on price direction — decent trend-confirmation tool, underused."],
+[47,"Volume Profile","Advanced","new",5,"Shows volume traded at each price level (not each time period) — rapidly growing in popularity via newer charting platforms."],
+[48,"Chaikin Money Flow","Advanced","uncommon",2,"Combines price and volume to estimate buying/selling pressure over a period — niche, rarely discussed."],
+[49,"Delivery % (India-specific)","Intermediate","underrated",4,"Percentage of traded volume actually taken for delivery — a strong genuine-conviction signal, hugely underused by retail in India."]
+]},
+{title:"Retracement & Projection Tools", desc:"Tools used to estimate where a pullback might end or a move might extend to.", items:[
+[50,"Fibonacci Retracement","Intermediate","common",3,"Horizontal levels (23.6%, 38.2%, 61.8% etc.) marking likely pullback zones within a trend."],
+[51,"Fibonacci Extension","Advanced","uncommon",2,"Projects potential price targets beyond the current move using the same ratio sequence."],
+[52,"Gann angles/lines","Advanced","uncommon",1,"A geometric time-and-price method from W.D. Gann — niche, more popular in older-generation TA circles."],
+[53,"Pivot Points","Intermediate","common",4,"Formula-derived intraday support/resistance levels calculated from the prior session's high/low/close."],
+[54,"Andrews' Pitchfork","Advanced","uncommon",2,"Three parallel trendlines projecting a channel from three chosen pivot points — rarely used outside advanced TA communities."]
+]},
+{title:"Structure, Flow & Institutional Concepts", desc:"Where TA meets market microstructure — how orders, liquidity, and institutions actually move price.", items:[
+[55,"Open Interest (OI)","Advanced","common",5,"Total outstanding derivative contracts — a core input for gauging positioning in Indian F&O markets."],
+[56,"Put-Call Ratio (PCR)","Intermediate","common",3,"Ratio of put to call open interest, used as a contrarian sentiment gauge."],
+[57,"Liquidity sweep / Stop-hunt","Advanced","new",5,"Price briefly pierces a key level to trigger stop-losses before reversing — increasingly discussed via Smart Money Concepts content."],
+[58,"Order block (SMC)","Advanced","new",3,"A candle/zone marking where large institutional orders are believed to sit — popularized heavily by retail SMC educators since ~2020."],
+[59,"Fair Value Gap (FVG)","Advanced","new",3,"A price imbalance left by a sharp move, believed to attract price back to 'fill' it — a newer SMC-derived concept."],
+[60,"Wyckoff Method (accumulation/distribution)","Advanced","underrated",5,"A structured framework for institutional accumulation/distribution phases — older than SMC, arguably more rigorous, less hyped."],
+[61,"Volume Spread Analysis (VSA)","Advanced","underrated",5,"Reads the relationship between volume and price spread to infer institutional intent — powerful, rarely taught well."],
+[62,"Dark pool / block deal tracking","Advanced","uncommon",4,"Monitoring large off-exchange or bulk trades to trace institutional footprints — data-access-dependent."]
+]},
+{title:"Multi-Timeframe & Confirmation Techniques", desc:"Methods for combining signals across timeframes or indicators to reduce false positives.", items:[
+[63,"Multi-timeframe analysis (MTFA)","Intermediate","common",5,"Checking higher and lower timeframes together to align trend direction before entering."],
+[64,"Confluence (multiple signals aligning)","Intermediate","common",5,"Waiting for several independent signals to agree at the same zone before acting."],
+[65,"Divergence (regular/hidden)","Intermediate","uncommon",3,"Price and an indicator (like RSI) moving in opposite directions — an early but unreliable warning sign."],
+[66,"Relative Strength vs Index","Intermediate","underrated",4,"Comparing a stock's performance to its benchmark index to spot true leaders/laggards — simple, powerful, rarely done systematically."]
+]},
+{title:"Cycle & Wave Theories", desc:"Frameworks claiming markets move in predictable, repeating structural waves or cycles.", items:[
+[67,"Elliott Wave Theory","Advanced","uncommon",2,"A theory that markets move in repeating 5-3 wave impulse/correction cycles — widely known but highly subjective to apply."],
+[68,"Dow Theory","Basic","uncommon",3,"The foundational 19th-century theory behind most modern TA — rarely studied directly anymore despite being the origin of trend concepts."],
+[69,"Market cycles (accumulation/markup/distribution/markdown)","Intermediate","common",4,"A 4-phase model describing the typical life cycle of a trend, borrowed from Wyckoff's framework."],
+[70,"Seasonality patterns","Advanced","underrated",2,"Statistical tendencies for certain months/periods to outperform (e.g. Santa Claus rally) — real but weak and inconsistent edge."]
+]},
+{title:"Emerging / Data-Driven TA", desc:"Newer approaches blending classical TA with modern data, computation, and automation.", items:[
+[71,"Algorithmic pattern scanning","Advanced","new",4,"Software auto-detecting classical chart patterns across thousands of stocks in real time."],
+[72,"AI/ML-based chart pattern recognition","Frontier","new",2,"Machine learning models trained to identify patterns or predict moves directly from price/volume data — still early and unproven at scale."]
+]}
+];
+
+// Combination framework: [timeframe, [[pairA, pairB, why, effectiveness]]]
+const combos = [
+  {tf:"Scalping / Intraday (1m–15m)", items:[
+    ["VWAP","Volume (raw)","VWAP tells you the institutional fair-price anchor; volume confirms whether a move away from it has real conviction or is just noise.",5],
+    ["Order block (SMC)","Liquidity sweep / Stop-hunt","A sweep below a level followed by a reclaim into an order block is the core intraday SMC entry setup.",4],
+    ["Support and Resistance","ATR (Average True Range)","S/R gives the zone; ATR sizes the stop-loss correctly for that specific stock's current volatility, avoiding both premature stop-outs and oversized risk.",5],
+    ["Pivot Points","VWAP","Both are intraday institutional reference levels — when they align closely, that zone carries extra weight.",4]
+  ]},
+  {tf:"Swing Trading (1H–Daily)", items:[
+    ["Support and Resistance","Volume (raw)","A bounce or breakout only means something if volume confirms real participation, not a thin, easily-reversed move.",5],
+    ["RSI","Divergence (regular/hidden)","RSI alone gives overbought/oversold; divergence between RSI and price is what actually flags a potential exhaustion point worth watching.",4],
+    ["Moving Average (EMA)","Multi-timeframe analysis (MTFA)","Using a higher-timeframe EMA (e.g. daily 50-EMA) to define bias, then entering on a lower timeframe pullback, aligns trend across timeframes.",5],
+    ["Chart Patterns (Flags/Triangles)","Volume Profile","Volume Profile shows whether the breakout level actually has a low-volume node above it (room to run) or a high-volume node (likely to stall).",4],
+    ["Relative Strength vs Index","Support and Resistance","A stock holding its support while the index falls shows genuine relative strength — a much higher-quality setup than support alone.",5]
+  ]},
+  {tf:"Positional / Investing (Weekly–Monthly)", items:[
+    ["Market cycles (Wyckoff)","Delivery % (India-specific)","Rising delivery % during an apparent accumulation phase is strong on-ground confirmation that real investors (not just traders) are building positions.",5],
+    ["Moving Average (SMA 200)","Market cycles (accumulation/markup/distribution/markdown)","The 200-SMA is commonly used as the dividing line between markup and markdown phases — simple and remarkably reliable at this timeframe.",4],
+    ["Relative Strength vs Index","Seasonality patterns","Sector rotation combined with seasonal tendencies (e.g. pre-budget rallies) can improve position timing over a multi-month hold.",3]
+  ]},
+  {tf:"Derivatives / F&O-specific (Any timeframe)", items:[
+    ["Open Interest (OI)","Put-Call Ratio (PCR)","OI shows where positioning is concentrated; PCR shows the directional skew of that positioning — used together for a fuller sentiment picture than either alone.",5],
+    ["Open Interest (OI)","Support and Resistance","Heavy OI buildup at a strike often coincides with real S/R zones on the underlying, since option writers actively defend those levels.",5],
+    ["Volume Spread Analysis (VSA)","Open Interest (OI)","VSA flags unusual spread/volume behavior in the underlying; a simultaneous OI spike helps confirm it's driven by fresh institutional positioning, not just noise.",4]
+  ]},
+  {tf:"Cross-cutting (works at every timeframe)", items:[
+    ["Confluence (multiple signals aligning)","Support and Resistance","This is the master combination rule — never trade an S/R zone alone; require at least one more independent signal (volume, RSI, structure) to align before acting.",5],
+    ["Multi-timeframe analysis (MTFA)","Trend (uptrend/downtrend/range)","Always confirm the higher-timeframe trend before trusting a lower-timeframe signal — the single most underused discipline across all timeframes.",5]
+  ]}
+];
+
+const container = document.getElementById('tableContainer');
+const countLine = document.getElementById('countLine');
+let allRows = [];
+
+sections.forEach(sec => {
+  const secDiv = document.createElement('div');
+  secDiv.innerHTML = `<div class="section-title"><span class="num">${sec.items[0][0].toString().padStart(2,'0')}–${sec.items[sec.items.length-1][0].toString().padStart(2,'0')}</span>${sec.title}</div><div class="section-desc">${sec.desc}</div>`;
+
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr>
+    <th style="width:21%">Concept</th>
+    <th style="width:10%">Level</th>
+    <th style="width:11%">Usage</th>
+    <th style="width:10%">Practicality</th>
+    <th style="width:48%">One-line explanation</th>
+  </tr></thead><tbody></tbody>`;
+  const tbody = table.querySelector('tbody');
+
+  sec.items.forEach(([num,name,level,tag,prac,exp]) => {
+    const tr = document.createElement('tr');
+    tr.dataset.tag = tag;
+    tr.dataset.name = name.toLowerCase();
+    const pracHtml = `<span class="fill">${'●'.repeat(prac)}</span><span class="empty">${'○'.repeat(5-prac)}</span>`;
+    tr.innerHTML = `
+      <td><span class="concept-num">${num.toString().padStart(2,'0')}</span><span class="concept-name">${name}</span></td>
+      <td><span class="level-tag">${level}</span></td>
+      <td><span class="tag ${tag}">${tag}</span></td>
+      <td><span class="prac">${pracHtml}</span></td>
+      <td class="explain">${exp}</td>
+    `;
+    tbody.appendChild(tr);
+    allRows.push(tr);
+  });
+
+  secDiv.appendChild(table);
+  container.appendChild(secDiv);
+});
+
+function updateCount(){
+  const visible = allRows.filter(r => !r.classList.contains('hidden')).length;
+  countLine.textContent = `Showing ${visible} of ${allRows.length}`;
+  document.querySelectorAll('.section-title').forEach(st => {
+    const desc = st.nextElementSibling;
+    const table = desc.nextElementSibling;
+    const rows = table.querySelectorAll('tbody tr');
+    const anyVisible = Array.from(rows).some(r => !r.classList.contains('hidden'));
+    st.style.display = anyVisible ? '' : 'none';
+    desc.style.display = anyVisible ? '' : 'none';
+    table.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+let currentFilter = 'all';
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+document.getElementById('searchBox').addEventListener('input', applyFilters);
+
+function applyFilters(){
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  allRows.forEach(tr => {
+    const tagMatch = currentFilter === 'all' || tr.dataset.tag === currentFilter;
+    const searchMatch = !q || tr.dataset.name.includes(q);
+    tr.classList.toggle('hidden', !(tagMatch && searchMatch));
+  });
+  updateCount();
+}
+
+updateCount();
+
+// Render combination framework
+const comboContainer = document.getElementById('comboContainer');
+combos.forEach(group => {
+  const groupDiv = document.createElement('div');
+  groupDiv.className = 'combo-group';
+  const gridHtml = group.items.map(([a,b,why,eff]) => {
+    const effHtml = `<span class="fill">${'●'.repeat(eff)}</span><span class="empty">${'○'.repeat(5-eff)}</span>`;
+    return `<div class="combo-card">
+      <div class="combo-pair">${a}<span class="plus">+</span>${b}</div>
+      <div class="combo-why">${why}</div>
+      <div class="combo-rating"><span>EFFECTIVENESS</span><span class="prac">${effHtml}</span></div>
+    </div>`;
+  }).join('');
+  groupDiv.innerHTML = `<div class="combo-tf">${group.tf}</div><div class="combo-grid">${gridHtml}</div>`;
+  comboContainer.appendChild(groupDiv);
+});
+</script>
+</body>
+</html>
